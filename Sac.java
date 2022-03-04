@@ -73,9 +73,49 @@ public class Sac {
             System.out.print(jouet.getName() + " ");
         }
     }
-    //TODO Méthode pour extraire la premiere occurence d'un objet
-    //TODO Méthode pour vider entièrement le sac
-    //TODO Méthode pour tester la présence d'un objet
+    /**
+     * Retire le premier jouet ayant le nom donné en paramètre
+     * @param jouet le nom du jouet a retirer
+     */
+
+    public void remove(Jouet jouet) {
+
+        boolean retirer = false;
+        for (int rang = 0; 
+                 rang <= this.content.size() && !retirer;rang++) {
+
+            if (this.content.get(rang) == jouet) {
+                this.content.remove(rang);
+                retirer = true;
+            } 
+        }
+    }
+    /** Vide entièrement le Sac */
+    public void clear() {
+        this.content.clear();
+    }
+    /**
+     * @param jouet le jouet que dont on veut savoir si il est présent dans le sac
+     * @return retourne la position du jouet dans le Sac si il est présent sinon retourne -1
+     */ 
+    public int isHere(Jouet jouet) {
+
+        final int NOT_HERE = -1;
+        boolean retirer = false;
+        int rang = 0;
+        while ( rang < this.content.size() && !retirer)  {
+
+            if (this.content.get(rang) == jouet) {
+                retirer = true;
+            } 
+            rang++;
+        } 
+        if(retirer == false) {
+            return NOT_HERE;
+        }
+        return rang;
+    }
+
     /**
      * Test unitaires mal fait 
      * @param args non utilisé 
@@ -88,19 +128,20 @@ public class Sac {
 
         Jouet bateau = new Jouet(250,"bateau",0,8);
 
-        Jouet tracteur = new Jouet(100000,"tracteur",15,18);
+        Jouet tracteur = new Jouet(1000,"tracteur",15,18);
 
-        pere.add(bateau);
-        pere.add(tracteur);
         mere.add(bateau);
-        mere.add(bateau);
+        mere.add(tracteur);
+        if( mere.isHere(bateau) == -1 ) {
+            System.out.println("Erreur l'objet na pas été trouver dans le Sac !");
+        } else {
+            System.out.println("L'objet est présent au rang : " + (mere.isHere(bateau) + 1));
+        }
+    
 
-        System.out.println(pere.getMasse());
-        System.out.println(mere.getMasse());
-        System.out.println(mere.isEmpty());
-        System.out.println(test.isEmpty());
 
-        pere.toString();
+
+
 
         
     }
