@@ -6,6 +6,7 @@ package orienteo;
 
 import orienteo.Jouet.*;
 import java.util.ArrayList;
+import orienteo.Plage.*;
 /**
  * Représentation d'un sac sous la forme d'un objet java
  * L'objet possède des caractéristique comme :
@@ -28,7 +29,7 @@ public class Sac {
      * @param name nom du Sac
      */
 
-    private Sac(String name) {
+    public Sac(String name) {
         this.name = name;
         this.masse = 0;
     }
@@ -116,33 +117,4 @@ public class Sac {
         return rang;
     }
 
-    /**
-     * Test unitaires mal fait 
-     * @param args non utilisé 
-     */
-    public static void main(String[] args) {
-
-        Sac pere = new Sac("hote du pere noel");
-        Sac mere = new Sac("hote de la mere noel");
-        Sac test = new Sac("Sac de test");
-
-        Jouet bateau = new Jouet(250,"bateau",0,8);
-
-        Jouet tracteur = new Jouet(1000,"tracteur",15,18);
-
-        mere.add(bateau);
-        mere.add(tracteur);
-        if( mere.isHere(bateau) == -1 ) {
-            System.out.println("Erreur l'objet na pas été trouver dans le Sac !");
-        } else {
-            System.out.println("L'objet est présent au rang : " + (mere.isHere(bateau) + 1));
-        }
-    
-
-
-
-
-
-        
-    }
 }
