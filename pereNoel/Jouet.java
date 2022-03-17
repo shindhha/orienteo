@@ -3,8 +3,8 @@
  * pas de droit d'auteur ni de copyright
  */
 
-package orienteo;
-import orienteo.Plage.*;
+package pereNoel;
+import pereNoel.Plage.*;
 /**
  * Représentation d'un Jouet sous la forme d'un objet java
  * cette objet possède des caractéristique comme :
@@ -14,7 +14,8 @@ import orienteo.Plage.*;
  * @author Guillaume Medard
  */
 public class Jouet {
-
+   
+    private static final int MAX_LENTGH_PATRONYME = 50;
     private int masse;
     private String nom;
     private Plage plageAge;
@@ -25,8 +26,13 @@ public class Jouet {
      * @param nom le nom de l'objet
      * @param plageAge la plage d'age idéale a son utilisation
      */
-    public Jouet(int masse, String nom, Plage plageAge) {
-
+    public Jouet(String nom,int masse, Plage plageAge) {
+        super();
+        if (nom == null || nom.isBlank() || 
+            nom.length() > MAX_LENTGH_PATRONYME || masse < 0) {
+            throw new IllegalArgumentException();
+        }
+        
         this.masse = masse;
         this.nom = nom;
         this.plageAge = plageAge;

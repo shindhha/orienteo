@@ -2,41 +2,62 @@
  * Iut-Rodez 2021-2022 
  * pas de droit d'auteur ni de copyright
  */
-package orienteo;
+package pereNoel;
 
-import orienteo.Jouet.*;
 import java.util.ArrayList;
-import orienteo.Plage.*;
+
+import pereNoel.Jouet.*;
+import pereNoel.Plage.*;
 /**
- * Représentation d'un sac sous la forme d'un objet java
- * L'objet possède des caractéristique comme :
+ * Representation d'un sac sous la forme d'un objet java
+ * L'objet possede des caracteristique comme :
  * - son nom
- * - Une masse qui augmente avec les objets que l'on y intégre
+ * - Une masse qui augmente avec les objets que l'on y integre
  *   Cette masse ne peut dépacer une certaine quantité "CAPACITE"
  * @author Guillaume MEDARD
  */
 public class Sac {
 
     private ArrayList<Jouet> content = new ArrayList<Jouet>();
-
+    private static final int MAX_LENTGH_PATRONYME = 50;
     private final int CAPACITE = 100000;
 
     private  String name;
-
-    private  int masse;
+    private int masseInitiale;
+    private int masse;
     /** 
      * Constructeur de l'objet Sac 
      * @param name nom du Sac
      */
 
     public Sac(String name) {
+        super();
+        
+        if (name == null ||name.length() > MAX_LENTGH_PATRONYME || name.isBlank()) {
+            throw new IllegalArgumentException();
+        }
         this.name = name;
         this.masse = 0;
+        this.masseInitiale = 0;
     }
-
+    /**
+     * TODO commenter l'�tat initial atteint
+     * @param name
+     * @param masseInitiale
+     */
+    public Sac(String name,int masseInitiale) {
+        super();
+        
+        if (name == null ||name.length() > MAX_LENTGH_PATRONYME || name.isBlank() || masseInitiale < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.name = name;
+        this.masse = 0;
+        this.masseInitiale = masseInitiale;
+    }
     /** 
      * Ajoute un objet de la classe Jouet au Sac uniquement si :
-     * La masse du sac plus la masse de l'objet est inférieure ou égale 
+     * La masse du sac plus la masse de l'objet est inferieure ou égale 
      * a la CAPACITE
      * @param jouet Le jouet que l'on veut ajouter
      */
@@ -56,7 +77,7 @@ public class Sac {
         return this.name;
     }
 
-    /** @return la masse cumulé du sac et des objets qu'il contient */
+    /** @return la masse cumule du sac et des objets qu'il contient */
     public int getMasse() {
         return this.masse;
     }
@@ -64,7 +85,7 @@ public class Sac {
     public boolean isEmpty() {
         return content.isEmpty();
     }
-    /** @return true si la masse totale est égale a la capacite du sac*/
+    /** @return true si la masse totale est egale a la capacite du sac*/
     public boolean isFull() {
         return this.masse == CAPACITE;
     }
@@ -75,7 +96,7 @@ public class Sac {
         }
     }
     /**
-     * Retire le premier jouet ayant le nom donné en paramètre
+     * Retire le premier jouet ayant le nom donne en parametre
      * @param jouet le nom du jouet a retirer
      */
 
@@ -91,13 +112,13 @@ public class Sac {
             } 
         }
     }
-    /** Vide entièrement le Sac */
+    /** Vide entierement le Sac */
     public void clear() {
         this.content.clear();
     }
     /**
-     * @param jouet le jouet que dont on veut savoir si il est présent dans le sac
-     * @return retourne la position du jouet dans le Sac si il est présent sinon retourne -1
+     * @param jouet le jouet que dont on veut savoir si il est present dans le sac
+     * @return retourne la position du jouet dans le Sac si il est present sinon retourne -1
      */ 
     public int isHere(Jouet jouet) {
 
