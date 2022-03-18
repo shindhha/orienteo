@@ -99,28 +99,54 @@ public class Tests {
     }
     //TODO testAdd
     private static boolean testSacAdd() {
-        boolean testOk = false;
+        boolean testOk = true;
+        int masseIniSac;
+        int masseDuJouet;
+        int masseApresAjout;
         final Sac[] JEU_DE_TEST_SAC = 
                     {
                                     new Sac("Sac de Test"),
+                                    new Sac("Sac de Test2")
                     };
         final Jouet[] JEU_DE_TEST_JOUET =
                     {
-                                    new Jouet("Jouet de Test",50,plageTest)
+                                    new Jouet("Jouet de Test",50,plageTest),
+                                    new Jouet("Jouet de Test 2",80,plageTest)
                     };
         
         for (int i = 0; i < JEU_DE_TEST_JOUET.length; i++) {
-            try {
-                JEU_DE_TEST_SAC[0].add(JEU_DE_TEST_JOUET[i]);
+            
+            masseDuJouet = JEU_DE_TEST_JOUET[i].getMasse();
+            masseIniSac = JEU_DE_TEST_SAC[0].getMasse();
+            JEU_DE_TEST_SAC[0].add(JEU_DE_TEST_JOUET[i]);
+            masseApresAjout = JEU_DE_TEST_SAC[0].getMasse();
+            
+            
+         /* Test sur la variation de la masse du sac lors de l'ajout d'un objet 
+          * ainsi que pour s'assurer que l'on retrouve bien l'occurence de l'objet
+          * dans le tableau associé au sac
+          */
+            if (!(masseIniSac +  masseDuJouet == masseApresAjout)
+                  ||  JEU_DE_TEST_SAC[0].isHere(JEU_DE_TEST_JOUET[i]) == -1) {
+                
                 testOk = false;
-            } catch (Exception e) {
+            }
+         /* Test pour également vérifier que le programme retourne bien une erreur
+          * si l'objet que l'on essaye de retrouver ne se trouve pas dans le sac
+          */
+            Jouet testJouet = new  Jouet("Jouet de test ",50,plageTest);
+            if (!((JEU_DE_TEST_SAC[0].isHere(testJouet)) == -1)) {
+                testOk = false;
+            }
+            
+            try {
+                JEU_DE_TEST_SAC[1].testSetMasse(99999);
+                JEU_DE_TEST_SAC[1].add(JEU_DE_TEST_JOUET[0]);
+                testOk = false;
+            } catch (IllegalArgumentException e) {
                 testOk = true;
             }
         }
-        // TODO voir si la masse du Sac bouge bien
-        // TODO 
-        
-        
         return testOk;
         
     }
@@ -138,6 +164,7 @@ public class Tests {
         ok =  testJouetStringIntPlage();
         ok &= testPlageIntInt();
         ok &= testSacString();
+        ok &= testSacAdd();
         
         if (ok) {
             System.out.println("Réussite des tests unitaires");

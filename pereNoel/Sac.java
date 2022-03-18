@@ -42,8 +42,10 @@ public class Sac {
     }
     /**
      * TODO commenter l'état initial atteint
-     * @param name
-     * @param masseInitiale
+     * @param name nom du sac
+     * @param masseInitiale masse du sac sans objet à l'intérieur
+     * @throw si l'utilisateur n'a pas donner de nom , 
+     *        si il est trop long ou si la masseInitiale passer en argument est négative 
      */
     public Sac(String name,int masseInitiale) {
         super();
@@ -55,19 +57,18 @@ public class Sac {
         this.masse = 0;
         this.masseInitiale = masseInitiale;
     }
+    
     /** 
      * Ajoute un objet de la classe Jouet au Sac uniquement si :
-     * La masse du sac plus la masse de l'objet est inferieure ou Ã©gale 
+     * La somme de la masse du sac plus la masse de l'objet est inferieure ou egale 
      * a la CAPACITE
      * @param jouet Le jouet que l'on veut ajouter
+     * @throw si le sac ne possède pas la place pour accueillir le jouet
      */
     public void add(Jouet jouet) {
 
         if (this.masse + jouet.getMasse() > CAPACITE) {
-            System.out.print("L'Objet est trop lourd pour "
-                             +"la capacite restante du sac ! "
-                             +"(capacite restante : " + (CAPACITE - this.masse) + ")");
-            return;
+            throw new IllegalArgumentException();
         }
         this.masse += jouet.getMasse();
         this.content.add(jouet);
@@ -80,6 +81,10 @@ public class Sac {
     /** @return la masse cumule du sac et des objets qu'il contient */
     public int getMasse() {
         return this.masse;
+    }
+    /** @return la masse du sac sans prendre en compte les jouets en l'interieur */
+    public int getMasseIni() {
+        return this.masseInitiale;
     }
     /** @return true si le sac ne comptien aucun Jouet */
     public boolean isEmpty() {
@@ -136,6 +141,13 @@ public class Sac {
             return NOT_HERE;
         }
         return rang;
+    }
+    /* ******************** COMMANDE TEMPORAIRES ******************** */
+    /** TODO commenter le rôle de cette méthode (SRP)
+     * @param masse
+     */
+    public void testSetMasse(int masse) {
+        this.masse = masse;
     }
 
 }
