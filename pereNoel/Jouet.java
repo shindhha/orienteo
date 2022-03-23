@@ -49,4 +49,11 @@ public class Jouet {
     public Plage getPlage() {
         return this.plageAge;
     }
+    public String toString() {
+        return this.getPlage().getPlageSup() == 0 ? 
+               this.nom + " : " +  this.masse + " g, à partir de " 
+               + this.plageAge.getPlageInf() + " jusqu'à " + this.plageAge.getPlageSup() :
+               this.nom + " : " +  this.masse + " g, à partir de " 
+               + this.plageAge.getPlageInf();
+    }
 }

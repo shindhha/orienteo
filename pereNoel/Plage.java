@@ -12,7 +12,7 @@ package pereNoel;
 public class Plage {
 
     private int plageInf;
-    private int plageSup;
+    private int plageSup = 0;
 
     /**
      * Constructeur de l'objet plage.
@@ -31,5 +31,25 @@ public class Plage {
         this.plageInf = plageInf > plageSup ? plageSup : plageInf;
         this.plageSup = plageInf > plageSup ? plageInf : plageSup;
     }
-   
+    /**
+     * La plageSup n'étant pas défini on considère que le jouet adapté 
+     * pour n'importe quel age au dessus de plageInf
+     * @param plageInf age minimum idéal à l'utilisation du jouet
+     */
+    public Plage(int plageInf) {
+        super();
+        if (plageInf < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.plageInf = plageInf;
+    }
+
+    /** @return la borne inferieure de la plage d'age*/
+    public int getPlageInf() {
+        return this.plageInf;
+    }
+    /** @return la borne superieure de la plage d'age*/
+    public int getPlageSup() {
+        return this.plageSup;
+    }
 }

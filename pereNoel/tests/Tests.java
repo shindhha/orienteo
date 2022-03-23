@@ -3,7 +3,12 @@
  * Iut-Rodez 2021-2022 
  * pas de droit d'auteur ni de copyright
  */
-package pereNoel;
+package pereNoel.tests;
+
+import pereNoel.Jouet;
+import pereNoel.Plage;
+import pereNoel.Sac;
+
 /**
  * 
  * 
@@ -14,9 +19,6 @@ public class Tests {
     
     static Plage  plageTest = new Plage(0,10);
     
-    /** TODO commenter le rôle de cette méthode (SRP)
-     * 
-     */
     
     /* Test des constructeurs / Methode pour la classe 'Jouet' */
     private static boolean testJouetStringIntPlage() {
@@ -150,6 +152,18 @@ public class Tests {
         return testOk;
         
     }
+    /** Tests de la methode toString
+     * 
+     */
+    public static void testToString() {
+        Jouet[] jouetATester = {
+                       
+        };
+        String[] resultatsAttendu = {
+                        
+        };
+    }
+    
     // TODO testRemove
     // TODO testToString
     // TODO testIsHere

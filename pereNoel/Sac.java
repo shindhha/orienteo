@@ -94,7 +94,7 @@ public class Sac {
     public boolean isFull() {
         return this.masse == CAPACITE;
     }
-    /** Affiche la liste des jouets contenue dans le sac */
+    /** Affiche la liste des jouets contenu dans le sac */
     public void toStringS() {
         for (Jouet jouet : content) {
             System.out.print(jouet.getName() + " ");
