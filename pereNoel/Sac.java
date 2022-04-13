@@ -4,6 +4,7 @@
  */
 package pereNoel;
 
+import java.nio.BufferOverflowException;
 import java.util.ArrayList;
 
 import pereNoel.Jouet.*;
@@ -17,10 +18,10 @@ import pereNoel.Plage.*;
  * @author Guillaume MEDARD
  */
 public class Sac {
-
     private ArrayList<Jouet> content = new ArrayList<Jouet>();
     private static final int MAX_LENTGH_PATRONYME = 50;
-    private final int CAPACITE = 100000;
+    private static final int CAPACITE_MAX = 100000;
+    private final int CAPACITE;
 
     private  String name;
     private int masseInitiale;
@@ -28,50 +29,118 @@ public class Sac {
     /** 
      * Constructeur de l'objet Sac 
      * @param name nom du Sac
+     * @param CAPACITE dqs
      */
 
-    public Sac(String name) {
+    public Sac(String name,final int CAPACITE) {
         super();
         
-        if (name == null ||name.length() > MAX_LENTGH_PATRONYME || name.isBlank()) {
+        if (name == null ||name.length() > MAX_LENTGH_PATRONYME || name.isBlank()
+            || CAPACITE < 0 || CAPACITE > CAPACITE_MAX) {
             throw new IllegalArgumentException();
         }
         this.name = name;
         this.masse = 0;
         this.masseInitiale = 0;
+        this.CAPACITE = CAPACITE;
     }
     /**
      * TODO commenter l'état initial atteint
      * @param name nom du sac
      * @param masseInitiale masse du sac sans objet à l'intérieur
+     * @param CAPACITE 
      * @throw si l'utilisateur n'a pas donner de nom , 
      *        si il est trop long ou si la masseInitiale passer en argument est négative 
      */
-    public Sac(String name,int masseInitiale) {
+    public Sac(String name,int masseInitiale,final int CAPACITE)  {
         super();
         
-        if (name == null ||name.length() > MAX_LENTGH_PATRONYME || name.isBlank() || masseInitiale < 0) {
+        if (name == null ||name.length() > MAX_LENTGH_PATRONYME 
+            || name.isBlank() || masseInitiale < 0 || CAPACITE < 0 || CAPACITE > CAPACITE_MAX) {
             throw new IllegalArgumentException();
         }
         this.name = name;
         this.masse = 0;
         this.masseInitiale = masseInitiale;
+        this.CAPACITE = CAPACITE;
     }
     
     /** 
      * Ajoute un objet de la classe Jouet au Sac uniquement si :
      * La somme de la masse du sac plus la masse de l'objet est inferieure ou egale 
      * a la CAPACITE
-     * @param jouet Le jouet que l'on veut ajouter
+     * @param jouetAjouter Le jouet que l'on veut ajouter
      * @throw si le sac ne possède pas la place pour accueillir le jouet
      */
-    public void add(Jouet jouet) {
+    public void add(Jouet jouetAjouter) {
+        if (jouetAjouter == null) {
+            throw new NullPointerException();
+        }
+        if (this.masse + jouetAjouter.getMasseKg() > CAPACITE) {
+            throw new BufferOverflowException();
+        }
+        this.masse += jouetAjouter.getMasseKg();
+        this.content.add(jouetAjouter);
+    }
+    
+    /** Affiche la liste des jouets contenu dans le sac */
+    @Override
+    public String toString() {
+        StringBuilder sacToString = new StringBuilder();
+        for (Jouet jouet : content) {
+            sacToString.append(jouet.getName() + " ");
+        }
+        return sacToString.toString();
+    }
+    /**
+     * Retire le premier jouet ayant le nom donne en parametre
+     * @param jouet le nom du jouet a retirer
+     */
 
-        if (this.masse + jouet.getMasse() > CAPACITE) {
+    public void retirer(Jouet jouet) {
+
+        boolean retirer = false;
+        for (int rang = 0; 
+                 rang <= this.content.size() && !retirer;rang++) {
+
+            if (this.content.get(rang) == jouet) {
+                this.content.remove(rang);
+                retirer = true;
+            } 
+        }
+    }
+    /** Vide entierement le Sac */
+    public void clear() {
+        this.content.clear();
+        this.masse = 0;
+    }
+    /**
+     * @param aTrouver le jouet que dont on veut savoir si il est present dans le sac
+     * @return retourne si le jouet est contenue dans un sac
+     */ 
+    public boolean isHere(Jouet aTrouver) {
+
+        boolean present = false;
+        
+        for (int rang = 0; rang < this.content.size() && !present; rang++)  {
+
+            if (this.content.get(rang) == aTrouver) {
+                present = true;
+            } 
+            
+        } 
+        return present;
+    }
+    /** TODO commenter le rôle de cette méthode (SRP)
+     * @param indiceATrouver
+     * @return l'indice de l'objet
+     */
+    public int getIndex(Jouet indiceATrouver) {
+        if (!isHere(indiceATrouver)) {
             throw new IllegalArgumentException();
         }
-        this.masse += jouet.getMasse();
-        this.content.add(jouet);
+        return CAPACITE;
+        
     }
     /** @return le nom du sac */
     public String getName() {
@@ -93,54 +162,6 @@ public class Sac {
     /** @return true si la masse totale est egale a la capacite du sac*/
     public boolean isFull() {
         return this.masse == CAPACITE;
-    }
-    /** Affiche la liste des jouets contenu dans le sac */
-    public void toStringS() {
-        for (Jouet jouet : content) {
-            System.out.print(jouet.getName() + " ");
-        }
-    }
-    /**
-     * Retire le premier jouet ayant le nom donne en parametre
-     * @param jouet le nom du jouet a retirer
-     */
-
-    public void remove(Jouet jouet) {
-
-        boolean retirer = false;
-        for (int rang = 0; 
-                 rang <= this.content.size() && !retirer;rang++) {
-
-            if (this.content.get(rang) == jouet) {
-                this.content.remove(rang);
-                retirer = true;
-            } 
-        }
-    }
-    /** Vide entierement le Sac */
-    public void clear() {
-        this.content.clear();
-    }
-    /**
-     * @param jouet le jouet que dont on veut savoir si il est present dans le sac
-     * @return retourne la position du jouet dans le Sac si il est present sinon retourne -1
-     */ 
-    public int isHere(Jouet jouet) {
-
-        final int NOT_HERE = -1;
-        boolean retirer = false;
-        int rang = 0;
-        while ( rang < this.content.size() && !retirer)  {
-
-            if (this.content.get(rang) == jouet) {
-                retirer = true;
-            } 
-            rang++;
-        } 
-        if(retirer == false) {
-            return NOT_HERE;
-        }
-        return rang;
     }
     /* ******************** COMMANDE TEMPORAIRES ******************** */
     /** TODO commenter le rôle de cette méthode (SRP)

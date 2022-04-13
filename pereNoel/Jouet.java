@@ -42,8 +42,8 @@ public class Jouet {
         return this.nom;
     }
     /** @return la masse de l'objet */
-    public int getMasse() {
-        return this.masse;
+    public double getMasseKg() {
+        return this.masse / 1000;
     }
     /** @return la plage de l'objet */
     public Plage getPlage() {
@@ -51,9 +51,9 @@ public class Jouet {
     }
     public String toString() {
         return this.getPlage().getPlageSup() == 0 ? 
-               this.nom + " : " +  this.masse + " g, à partir de " 
-               + this.plageAge.getPlageInf() + " jusqu'à " + this.plageAge.getPlageSup() :
-               this.nom + " : " +  this.masse + " g, à partir de " 
-               + this.plageAge.getPlageInf();
+               nom + " : " +  getMasseKg() + " kg, à partir de " 
+               + plageAge.getPlageInf() + " jusqu'à " + plageAge.getPlageSup() :
+               nom + " : " +  getMasseKg() + " kg, à partir de " 
+               + plageAge.getPlageInf();
     }
 }
